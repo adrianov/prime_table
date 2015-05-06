@@ -29,25 +29,32 @@ end
 class MulTable
   def initialize(numbers)
     @numbers = numbers
-    @first_column_width = numbers.max.to_s.length
-    @width = (numbers.max ** 2).to_s.length
+    max = numbers.max
+    @widths = [max.to_s.length]
+    numbers.each do |n|
+      @widths << (max * n).to_s.length
+    end
   end
 
   def to_s
-    res = "| #{' ' * @first_column_width} | " + @numbers.map { |n| format_number(n) }.join(' | ') + " |\n"
-    @numbers.each do |i|
-      res += "| #{format_number(i, @first_column_width)}"
-      @numbers.each do |j|
-        res += " | #{format_number(i * j)}"
-      end
-      res += " |\n"
+    res = format_table_row([nil] + @numbers)
+    @numbers.each do |number|
+      res += format_table_row([number] + @numbers.map { |n| n * number })
     end
     res
   end
 
   private
-    def format_number(number, width = nil)
-      width ||= @width
+    def format_table_row(values)
+      res = '|'
+      values.each_with_index do |v, k|
+        res += ' ' + format_number(v, @widths[k]) + ' |'
+      end
+      res + "\n"
+    end
+
+    def format_number(number, width)
+      return ' ' * width unless number
       sprintf "%#{width}d", number
     end
 end
