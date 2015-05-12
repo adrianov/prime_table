@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/adrianov/prime_table.svg?branch=master)](https://travis-ci.org/adrianov/prime_table)
+
 A simple program that takes integer N as input and outputs a table.
 Table size is (N+1)x(N+1): first row and first column contain the first N prime number.
 Inner cells contain the multiple of the two primes for the corresponding row and column.
